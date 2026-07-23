@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Lời mời đặc biệt gửi Trang 💌</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(-45deg, #ff9fc7, #ff6fa5, #ffc1e3, #ff8fc7, #ffb3d9);
+    background-size: 400% 400%;
+    animation: gradientShift 12s ease infinite;
+    font-family: 'Quicksand', sans-serif;
+    overflow: hidden;
+    position: relative;
+  }
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  canvas#sparkles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .heart, .petal {
+    position: fixed;
+    top: 100%;
+    font-size: 24px;
+    animation: floatUp linear infinite;
+    pointer-events: none;
+    user-select: none;
+    z-index: 2;
+    filter: drop-shadow(0 0 4px rgba(255,255,255,0.8));
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    50% { transform: translateY(-55vh) translateX(20px) rotate(180deg); }
+    100% { transform: translateY(-110vh) translateX(-10px) rotate(360deg); opacity: 0; }
+  }
+
+  .card {
+    position: relative;
+    background: rgba(255,255,255,0.97);
+    border-radius: 28px;
+    padding: 44px 38px;
+    max-width: 440px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 0 0 4px rgba(255,255,255,0.4), 0 25px 70px rgba(255, 61, 129, 0.5);
+    z-index: 10;
+    animation: popIn 0.8s ease, glowPulse 3s ease-in-out infinite;
+  }
+  @keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(255,255,255,0.4), 0 25px 70px rgba(255, 61, 129, 0.45); }
+    50% { box-shadow: 0 0 0 6px rgba(255,255,255,0.6), 0 25px 90px rgba(255, 61, 129, 0.7); }
+  }
+
+  .card.hidden-envelope {
+    cursor: pointer;
+    padding: 60px 20px;
+    background: rgba(255,255,255,0.9);
+  }
+
+  .envelope {
+    font-size: 90px;
+    animation: wiggle 1.5s ease-in-out infinite, floatSlight 2.5s ease-in-out infinite;
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+  @keyframes floatSlight {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-8px) rotate(5deg); }
+  }
+
+  .envelope-text {
+    margin-top: 18px;
+    color: #d6336c;
+    font-size: 19px;
+    font-weight: 700;
+    animation: fadePulse 2s ease-in-out infinite;
+  }
+  @keyframes fadePulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+  }
+
+  h1 {
+    font-family: 'Dancing Script', cursive;
+    color: #e6357a;
+    font-size: 40px;
+    margin: 0 0 14px;
+    text-shadow: 0 2px 10px rgba(255, 105, 180, 0.3);
+  }
+
+  .name-highlight {
+    background: linear-gradient(135deg, #ff4f8b, #ff8fc7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 700;
+  }
+
+  p.message {
+    color: #7a5563;
+    font-size: 16.5px;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    min-height: 90px;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    background: #e6357a;
+    animation: blink 0.8s infinite;
+    margin-left: 2px;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .buttons {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    height: 60px;
+  }
+
+  button {
+    border: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  #yesBtn {
+    position: relative;
+    background: linear-gradient(135deg, #ff2d78, #ff6fa5, #ffb3d9, #ff2d78);
+    background-size: 300% 300%;
+    color: white;
+    padding: 17px 36px;
+    font-size: 17px;
+    letter-spacing: 0.3px;
+    border-radius: 40px;
+    box-shadow: 0 4px 12px rgba(255, 61, 129, 0.4),
+                0 10px 30px rgba(255, 61, 129, 0.5),
+                inset 0 1px 1px rgba(255,255,255,0.6);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    overflow: hidden;
+    animation: heartbeat 1.6s ease-in-out infinite, shimmerMove 3s linear infinite;
+    z-index: 1;
+  }
+  #yesBtn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -75%;
+    width: 50%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.7), transparent);
+    transform: skewX(-25deg);
+    animation: shine 2.2s ease-in-out infinite;
+  }
+  @keyframes shine {
+    0% { left: -75%; }
+    50% { left: 125%; }
+    100% { left: 125%; }
+  }
+  @keyframes shimmerMove {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+  }
+  #yesBtn:hover {
+    transform: scale(1.12);
+    box-shadow: 0 6px 16px rgba(255, 61, 129, 0.5),
+                0 14px 40px rgba(255, 61, 129, 0.65),
+                inset 0 1px 1px rgba(255,255,255,0.7);
+  }
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.07); }
+  }
+
+  #noBtn {
+    background: #f1f1f1;
+    color: #999;
+    position: absolute;
+    transition: transform 0.25s ease;
+  }
+
+  .success {
+    display: none;
+  }
+  .success h1 { font-size: 34px; }
+  .success .big-emoji {
+    font-size: 64px;
+    margin-bottom: 8px;
+    animation: bounce 1s infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-12px) scale(1.05); }
+  }
+
+  .details {
+    margin-top: 22px;
+    background: linear-gradient(135deg, #fff0f5, #ffe3ef);
+    border-radius: 18px;
+    padding: 18px;
+    text-align: left;
+    font-size: 15px;
+    color: #7a5563;
+    border: 1px solid rgba(255,143,199,0.4);
+  }
+  .details div { margin: 8px 0; }
+  .details b { color: #e6357a; }
+</style>
+</head>
+<body>
+
+<canvas id="sparkles"></canvas>
+
+<div class="card hidden-envelope" id="envelopeCard" onclick="openEnvelope()">
+  <div class="envelope">💌</div>
+  <div class="envelope-text">Chạm vào để mở thư nhé, Trang...</div>
+</div>
+
+<div class="card" id="mainCard" style="display:none;">
+  <div id="askSection">
+    <h1>Gửi Trang yêu 🥰</h1>
+    <p class="message" id="typedMessage"></p>
+    <div class="buttons">
+      <button id="yesBtn" onclick="sayYes()">Có, em đồng ý! 💕</button>
+      <button id="noBtn" onmouseover="dodge()" onclick="dodge()">Để suy nghĩ...</button>
+    </div>
+  </div>
+
+  <div class="success" id="successSection">
+    <div class="big-emoji">🎉</div>
+    <h1>Yeaaay Trang ơi! 💖</h1>
+    <p class="message">Anh biết ngay là em sẽ đồng ý mà!</p>
+    <div class="details">
+      <div>📅 <b>Thời gian:</b> Chủ nhật tuần này</div>
+      <div>📍 <b>Địa điểm:</b> Bí mật 🤫 (đến giờ sẽ biết!)</div>
+      <div>👗 <b>Lưu ý:</b> Chỉ cần em xuất hiện là đủ xinh rồi</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Trái tim + cánh hoa bay lơ lửng
+  function makeFloaters() {
+    const items = ['💗','💖','💕','💓','❤️','🌸','🌷'];
+    setInterval(() => {
+      const el = document.createElement('div');
+      el.className = 'heart';
+      el.textContent = items[Math.floor(Math.random()*items.length)];
+      el.style.left = Math.random()*100 + 'vw';
+      el.style.animationDuration = (4 + Math.random()*4) + 's';
+      el.style.fontSize = (16 + Math.random()*22) + 'px';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 9000);
+    }, 300);
+  }
+  makeFloaters();
+
+  // Lấp lánh nền bằng canvas
+  const canvas = document.getElementById('sparkles');
+  const ctx = canvas.getContext('2d');
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+  const sparkles = Array.from({length: 60}, () => ({
+    x: Math.random()*window.innerWidth,
+    y: Math.random()*window.innerHeight,
+    r: Math.random()*2 + 0.5,
+    a: Math.random(),
+    speed: Math.random()*0.02 + 0.005
+  }));
+  function drawSparkles() {
+    ctx.clearRect(0,0,canvas.width, canvas.height);
+    sparkles.forEach(s => {
+      s.a += s.speed;
+      const alpha = Math.abs(Math.sin(s.a));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(255,255,255,${alpha*0.9})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(drawSparkles);
+  }
+  drawSparkles();
+
+  function openEnvelope() {
+    document.getElementById('envelopeCard').style.display = 'none';
+    document.getElementById('mainCard').style.display = 'block';
+    typeMessage();
+  }
+
+  function typeMessage() {
+    const text = "Có một người luôn nghĩ về Trang mỗi ngày, và đang muốn dành riêng một buổi để ở bên em. Trang đi chơi với anh nhé? 🌸";
+    const el = document.getElementById('typedMessage');
+    let i = 0;
+    el.innerHTML = '<span id="typedText"></span><span class="cursor">&nbsp;</span>';
+    const typedText = document.getElementById('typedText');
+    const interval = setInterval(() => {
+      typedText.textContent += text[i];
+      i++;
+      if (i >= text.length) clearInterval(interval);
+    }, 35);
+  }
+
+  function dodge() {
+    const btn = document.getElementById('noBtn');
+    const container = btn.parentElement.getBoundingClientRect();
+    const maxX = container.width - 120;
+    const maxY = 20;
+    const randX = (Math.random() - 0.5) * maxX;
+    const randY = (Math.random() - 0.5) * maxY * 4;
+    btn.style.transform = `translate(${randX}px, ${randY}px)`;
+  }
+
+  function burstConfetti() {
+    const colors = ['#ff6fa5','#ff3d81','#ffc1e3','#fff','#ff9fc7'];
+    for (let i = 0; i < 60; i++) {
+      const c = document.createElement('div');
+      c.textContent = ['💖','🎉','✨','💕'][Math.floor(Math.random()*4)];
+      c.style.position = 'fixed';
+      c.style.left = '50%';
+      c.style.top = '40%';
+      c.style.fontSize = (14 + Math.random()*16) + 'px';
+      c.style.zIndex = 999;
+      c.style.pointerEvents = 'none';
+      const angle = Math.random()*Math.PI*2;
+      const dist = 150 + Math.random()*250;
+      const dx = Math.cos(angle)*dist;
+      const dy = Math.sin(angle)*dist;
+      c.animate([
+        { transform: 'translate(0,0) scale(1)', opacity: 1 },
+        { transform: `translate(${dx}px, ${dy}px) scale(0.3)`, opacity: 0 }
+      ], { duration: 1200 + Math.random()*600, easing: 'ease-out' });
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 2000);
+    }
+  }
+
+  function sayYes() {
+    document.getElementById('askSection').style.display = 'none';
+    document.getElementById('successSection').style.display = 'block';
+    burstConfetti();
+  }
+</script>
+
+</body>
+</html>
